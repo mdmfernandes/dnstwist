@@ -2,3 +2,12 @@ venv/
 
 # PyCharm project directory
 .idea
+
+# VSCode settings directory
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Mac OS stuff
+.DS_Store
