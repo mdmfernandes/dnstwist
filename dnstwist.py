@@ -36,6 +36,7 @@ from random import randint
 from os import path
 import smtplib
 import json
+from tools.manage_tld_database import update_tld_names_db
 
 try:
 	import queue
@@ -536,7 +537,7 @@ class TldDict(DomainDict):
 		if self.tld in self.dictionary:
 			self.dictionary.remove(self.tld)
 		for tld in self.dictionary:
-				self.domains.append({'fuzzer': 'TLD-swap', 'domain-name': self.domain + '.' + tld})
+			self.domains.append({'fuzzer': 'TLD-swap', 'domain-name': self.domain + '.' + tld})
 
 
 class DomainThread(threading.Thread):
@@ -894,7 +895,8 @@ def main():
 	if args.tld:
 		if not path.exists(args.tld):
 			p_err('error: dictionary not found: %s\n' % args.tld)
-			bye(-1)
+			bye(-1)		
+
 		tlddict = TldDict(url.domain)
 		tlddict.load_dict(args.tld)
 		tlddict.generate()
@@ -907,6 +909,10 @@ def main():
 	if not DB_TLD:
 		p_err('error: missing TLD database file: %s\n' % FILE_TLD)
 		bye(-1)
+	else: # If the file exists, update it if necessary
+		update_tld_names_db(FILE_TLD, path.dirname(FILE_TLD) + '/.tldupdated')
+
+		
 	if not DB_GEOIP and args.geoip:
 		p_err('error: missing GeoIP database file: %\n' % FILE_GEOIP)
 		bye(-1)
