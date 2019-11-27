@@ -86,7 +86,7 @@ def update_tld_names_db(dest_file, update_file):
 
         if local_file_update < remote_file_update:
             download_tld_names_db(dest_file)
-            print("[INFO] Updated TLD names database!")
+            # print("[INFO] Updated TLD names database!")
             # Update the file with the last update date
             now = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
